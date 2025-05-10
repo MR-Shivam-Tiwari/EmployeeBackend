@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-const locationSimulator = require('../utils/simulateLocations');
-const employeeRoutes = require('../routes/employeeRoutes');
+const locationSimulator = require('./utils/simulateLocations');
+const employeeRoutes = require('./routes/employeeRoutes');
 
 const app = express();
 
