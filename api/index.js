@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-const locationSimulator = require('./utils/simulateLocations');
-const employeeRoutes = require('./routes/employeeRoutes');
+const locationSimulator = require('../utils/simulateLocations');
+const employeeRoutes = require('../routes/employeeRoutes');
 
 const app = express();
 
@@ -14,6 +14,16 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 app.use(cors(corsOptions));
+// api/index.js
+module.exports = (req, res) => {
+  if (req.method === "GET") {
+    res.status(200).json({ message: "GET request received!" });
+  } else if (req.method === "POST") {
+    res.status(200).json({ message: "POST request received!" });
+  } else {
+    res.status(405).json({ message: "Method Not Allowed" });
+  }
+};
 
 // Middleware
 app.use(express.json());
@@ -23,19 +33,19 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => {
-  console.log('Server connected to MongoDB');
-  locationSimulator.startSimulation()
-    .catch(err => console.error('Failed to start simulation:', err));
-})
-.catch(err => console.error('MongoDB connection error:', err));
+  .then(() => {
+    console.log('Server connected to MongoDB');
+    locationSimulator.startSimulation()
+      .catch(err => console.error('Failed to start simulation:', err));
+  })
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
 app.use('/api/employees', employeeRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ 
+  res.status(500).json({
     message: 'Internal Server Error',
     error: process.env.NODE_ENV === 'development' ? err.message : undefined
   });

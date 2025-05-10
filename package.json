@@ -1,10 +1,10 @@
 {
-  "name": "employee-management-backend",
+  "name": "node-backend-vercel",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+   "start": "node api/index.js",
+    "dev": "nodemon api/index.js",
     "simulate": "node utils/simulateLocations.js",
     "dev:all": "concurrently \"npm run dev\" \"npm run simulate\"",
     "start:all": "concurrently \"npm start\" \"npm run simulate\""
